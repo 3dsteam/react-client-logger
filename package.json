@@ -1,11 +1,13 @@
 {
-  "name": "react-client-logger",
+  "name": "@3dsteam/react-client-logger",
   "version": "1.0.0",
   "description": "The template to create all your react libraries",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/react-client-logger.js",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "repository": "https://github.com/3dsteam/react-client-logger.git",
   "author": "Lorenzo Bonatti <lorenzo.bonatti@3ds.team>",
