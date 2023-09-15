@@ -1,0 +1,10 @@
+# JetBrains IDEs
+.idea
+
+# Yarn v2
+.yarn/*
+.pnp.*
+
+# Build
+dist
+node_modules
