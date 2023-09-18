@@ -4,6 +4,7 @@
   "description": "The template to create all your react libraries",
   "type": "module",
   "main": "dist/react-client-logger.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md",
