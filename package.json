@@ -1,6 +1,6 @@
 {
   "name": "@3dsteam/react-client-logger",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.0",
   "description": "The template to create all your react libraries",
   "type": "module",
   "main": "dist/index.cjs.js",
