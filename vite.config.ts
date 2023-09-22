@@ -15,13 +15,17 @@ export default defineConfig({
             entry: "./src/index.ts",
             name: "ReactClientLogger",
             formats: ["es", "cjs"],
+            fileName: (format) => `index.${format}.js`,
         },
         rollupOptions: {
             output: {
                 sourcemap: true,
             },
-            external: ["react/jsx-runtime"],
+            external: ["react", "react-dom"],
             plugins: [resolve(), typescript()],
         },
+    },
+    resolve: {
+        dedupe: ["react", "react-dom"],
     },
 });
