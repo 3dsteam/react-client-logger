@@ -1,10 +1,10 @@
-import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactElement, useCallback, useEffect, useMemo, useState } from "react";
 import ClientLoggerContext from "./context";
 import { db } from "../db";
 import { ELogLevel, IClientLoggerConfig, ILog } from "../models";
 import { v4 as uuidV4 } from "uuid";
 
-interface Props extends PropsWithChildren<Partial<IClientLoggerConfig>> {
+interface Props extends Partial<IClientLoggerConfig> {
     /**
      * Config for sync configuration from server
      * @default false
@@ -44,6 +44,7 @@ interface Props extends PropsWithChildren<Partial<IClientLoggerConfig>> {
      * @default false
      */
     debugMode?: boolean;
+    children: ReactElement;
 }
 
 const SessionUUID = uuidV4();
