@@ -1,7 +1,7 @@
 {
   "name": "@3dsteam/react-client-logger",
   "description": "Saving your log on remote server",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "type": "module",
   "main": "dist/react-client-logger.umd.cjs",
   "module": "dist/react-client-logger.js",
@@ -45,6 +45,7 @@
     "globals": "^15.6.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
+    "pinst": "^3.0.0",
     "prettier": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
