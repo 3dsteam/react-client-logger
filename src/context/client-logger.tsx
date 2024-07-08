@@ -48,7 +48,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
     }, [config]);
 
     const handleOnLog = useCallback(
-        async (message: string | undefined, level: ELogLevel) => {
+        async (message: string, level: ELogLevel, content?: unknown) => {
             // Skip ignored levels
             if (!isEnabled || level <= config.ignoreLevels) return;
 
@@ -66,6 +66,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
                     new LogSaving({
                         message,
                         level,
+                        content,
                         // Add breadcrumb trail
                         breadcrumb,
                     }),
@@ -78,6 +79,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
                     trace,
                     message,
                     level,
+                    content,
                 }),
             );
 
@@ -99,7 +101,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
                 debug: async (message: string, ...args: unknown[]) => {
                     console.debug(message, ...args);
                     // Log to indexedDB
-                    await handleOnLog(message, ELogLevel.DEBUG);
+                    await handleOnLog(message, ELogLevel.DEBUG, args);
                 },
                 _debug: (...args: unknown[]) => {
                     console.debug(args);
@@ -107,7 +109,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
                 log: async (message: string, ...args: unknown[]) => {
                     console.log(message, ...args);
                     // Log to indexedDB
-                    await handleOnLog(message, ELogLevel.INFO);
+                    await handleOnLog(message, ELogLevel.INFO, args);
                 },
                 _log: (...args: unknown[]) => {
                     console.debug(args);
@@ -115,7 +117,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
                 warn: async (message: string, ...args: unknown[]) => {
                     console.warn(message, ...args);
                     // Log to indexedDB
-                    await handleOnLog(message, ELogLevel.WARNING);
+                    await handleOnLog(message, ELogLevel.WARNING, args);
                 },
                 _warn: (...args: unknown[]) => {
                     console.debug(args);
@@ -123,7 +125,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
                 error: async (message: string, ...args: unknown[]) => {
                     console.error(message, ...args);
                     // Log to indexedDB
-                    await handleOnLog(message, ELogLevel.ERROR);
+                    await handleOnLog(message, ELogLevel.ERROR, args);
                 },
                 _error: (...args: unknown[]) => {
                     console.error(args);
@@ -131,7 +133,7 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
                 critical: async (message: string, ...args: unknown[]) => {
                     console.error(message, ...args);
                     // Log to indexedDB
-                    await handleOnLog(message, ELogLevel.CRITICAL);
+                    await handleOnLog(message, ELogLevel.CRITICAL, args);
                 },
             };
         },
@@ -143,14 +145,14 @@ export const ClientLoggerProvider = (props: IClientLoggerProviderProps) => {
         // Override console functions
         window.console = myConsole(window.console);
         // Catch uncaught errors
-        window.onerror = async (message, source, lineno, colno, error) => {
-            console.error("Uncaught error", { message, source, lineno, colno, error });
+        window.onerror = async (message, source) => {
+            void handleOnLog("Uncaught error", ELogLevel.ERROR, { message, source });
         };
         // Catch unhandled promise rejections
         window.onunhandledrejection = async (event) => {
-            console.error("Unhandled promise rejection", event);
+            void handleOnLog("Unhandled promise rejection", ELogLevel.ERROR, event.reason);
         };
-    }, [props.overrideConsoleFunctions, myConsole]);
+    }, [props.overrideConsoleFunctions, myConsole, handleOnLog]);
 
     return (
         <ClientLoggerContext.Provider value={{ log: handleOnLog }}>
