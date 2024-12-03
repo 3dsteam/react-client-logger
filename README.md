@@ -2,16 +2,16 @@
 
 ## Features
 
-- Salvataggio log su DB locale (IndexedDB)
-- Sincronizzazione log con server
+- Salvataggio logger su DB locale (IndexedDB)
+- Sincronizzazione logger con server
 - Override delle funzioni console (optional)
-- Creazione funzione per il salvataggio dei log
+- Creazione funzione per il salvataggio dei logger
 - Intercettazione di errori non gestiti (window.onerror) e Promise rejection (window.onunhandledrejection)
-- Configurazione livello dei log da salvare
-- Configurazione livello dei log da sincronizzare
-- Gestione dei breadcrumb per i log precedenti l'evento da sincronizzare (level >= config.level)
-- Sincronizzazione automatica dei log con il server al momento della creazione
-- Sincronizzazione tramite intervallo per i log non sincronizzati
+- Configurazione livello dei logger da salvare
+- Configurazione livello dei logger da sincronizzare
+- Gestione dei breadcrumb per i logger precedenti l'evento da sincronizzare (level >= config.level)
+- Sincronizzazione automatica dei logger con il server al momento della creazione
+- Sincronizzazione tramite intervallo per i logger non sincronizzati
 - Gestione dei chunk per la sincronizzazione
 
 ## How to use
@@ -33,7 +33,7 @@ WIP
 
 | Prop                     | Type                  | Default                                         | Description                        |
 |--------------------------|-----------------------|-------------------------------------------------|------------------------------------| 
-| enabled                  | `boolean`             | `true`                                          | Enable the log saving              |
+| enabled                  | `boolean`             | `true`                                          | Enable the logger saving              |
 | overrideConsoleFunctions | `boolean`             | `true`                                          | Override `console` functions       |
 | config                   | `IClientLoggerConfig` | see [IClientLoggerConfig](#IClientLoggerConfig) | ClientLoggerProvider configuration |
 | syncConfig               | `ILogSyncerConfig`    | see [ILogSyncerConfig](#ILogSyncerConfig)       | Sync records configuration         |
@@ -44,9 +44,9 @@ WIP
 
 | Prop         | Type                  | Default           | Description                                         |
 |--------------|-----------------------|-------------------|-----------------------------------------------------|
-| logLevel     | [LogLevel](#LogLevel) | `LogLevel.INFO`   | Minimum log level to save                           |
+| logLevel     | [LogLevel](#LogLevel) | `LogLevel.INFO`   | Minimum logger level to save                           |
 | ignoreLevels | [LogLevel](#LogLevel) | `ELogLevel.DEBUG` | Logs with level under or equal this will be ignored |
-| breadcrumb   | `boolean`             | `true`            | Maximum breadcrumbs to save into log                |
+| breadcrumb   | `boolean`             | `true`            | Maximum breadcrumbs to save into logger                |
 
 ### ILogSyncerConfig
 

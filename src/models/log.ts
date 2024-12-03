@@ -7,7 +7,7 @@ export interface ILog {
      */
     trace: string;
     /**
-     * The level of the log.
+     * The level of the logger.
      */
     level: ELogLevel;
     /**
@@ -15,7 +15,7 @@ export interface ILog {
      */
     message: string;
     /**
-     * Dynamic log content
+     * Dynamic logger content
      */
     content?: unknown;
     /**
