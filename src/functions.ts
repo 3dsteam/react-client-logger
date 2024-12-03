@@ -38,43 +38,44 @@ export const log = async (args: ILogMessage) => {
 };
 
 export const overrideConsole = () => {
+    const ORIGINAL = window.console;
     // Override logger functions
     window.console = {
-        ...window.console,
+        ...ORIGINAL,
         debug: async (message: string, ...args: unknown[]) => {
-            window.console.debug(message, ...args);
+            ORIGINAL.debug(message, ...args);
             // Log to indexedDB
             await log({ message, level: ELogLevel.DEBUG, content: args });
         },
         _debug: (...args: unknown[]) => {
-            window.console.debug(args);
+            ORIGINAL.debug(args);
         },
         log: async (message: string, ...args: unknown[]) => {
-            window.console.log(message, ...args);
+            ORIGINAL.log(message, ...args);
             // Log to indexedDB
             await log({ message, level: ELogLevel.INFO, content: args });
         },
         _log: (...args: unknown[]) => {
-            window.console.log(args);
+            ORIGINAL.log(args);
         },
         warn: async (message: string, ...args: unknown[]) => {
-            window.console.warn(message, ...args);
+            ORIGINAL.warn(message, ...args);
             // Log to indexedDB
             await log({ message, level: ELogLevel.WARNING, content: args });
         },
         _warn: (...args: unknown[]) => {
-            window.console.warn(args);
+            ORIGINAL.warn(args);
         },
         error: async (message: string, ...args: unknown[]) => {
-            window.console.error(message, ...args);
+            ORIGINAL.error(message, ...args);
             // Log to indexedDB
             await log({ message, level: ELogLevel.ERROR, content: args });
         },
         _error: (...args: unknown[]) => {
-            window.console.error(args);
+            ORIGINAL.error(args);
         },
         critical: async (message: string, ...args: unknown[]) => {
-            window.console.error(message, ...args);
+            ORIGINAL.error(message, ...args);
             // Log to indexedDB
             await log({ message, level: ELogLevel.CRITICAL, content: args });
         },
