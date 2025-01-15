@@ -18,7 +18,7 @@ export interface ILog {
     /**
      * Dynamic logger content
      */
-    content?: unknown;
+    content?: string;
     /**
      * Timestamp in milliseconds
      */
@@ -48,10 +48,10 @@ export class Log implements ILog {
     trace: string;
     level: ELogLevel;
     message: string;
-    content?: unknown;
+    content?: string;
     timestamp?: number;
 
-    constructor(data?: Partial<ILog>) {
+    constructor(data?: Partial<Omit<ILog, "content">> & { content?: unknown }) {
         // Validate UUID
         let uuid = data?.uuid;
         if (uuid && uuidVersion(uuid) !== 7) {
@@ -64,10 +64,17 @@ export class Log implements ILog {
         }
 
         this.uuid = uuid ?? uuidV7();
+
         this.trace = data?.trace ?? nanoid(5);
         this.level = data?.level ?? ELogLevel.DEBUG;
         this.message = data?.message ?? "No message provided";
-        this.content = data?.content ?? undefined;
+
+        // Serialize content
+        let content: string | undefined = undefined;
+        if (data?.content) content = typeof data?.content === "string" ? data.content : JSON.stringify(data?.content);
+
+        this.content = content;
+
         this.timestamp = data?.timestamp ?? Date.now();
     }
 }
@@ -75,7 +82,7 @@ export class Log implements ILog {
 export class LogSaving extends Log implements ILogSaving {
     breadcrumb: Omit<ILog, "trace">[];
 
-    constructor(data?: Partial<ILogSaving>) {
+    constructor(data?: Partial<Omit<ILogSaving, "content">> & { content?: unknown }) {
         super(data);
         this.breadcrumb = data?.breadcrumb ?? [];
     }
