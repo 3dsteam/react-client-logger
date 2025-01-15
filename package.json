@@ -1,7 +1,7 @@
 {
   "name": "@3dsteam/react-client-logger",
   "description": "Saving your log on remote server",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0-beta.1",
   "type": "module",
   "main": "dist/react-client-logger.umd.cjs",
   "module": "dist/react-client-logger.js",
