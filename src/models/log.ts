@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { v7 as uuidV7, version as uuidVersion } from "uuid";
 
 export interface ILog {
     uuid: string;
@@ -51,8 +52,19 @@ export class Log implements ILog {
     timestamp?: number;
 
     constructor(data?: Partial<ILog>) {
-        this.uuid = data?.uuid ?? nanoid(5);
-        this.trace = data?.trace ?? nanoid(10);
+        // Validate UUID
+        let uuid = data?.uuid;
+        if (uuid && uuidVersion(uuid) !== 7) {
+            // Invalid UUID
+            uuid = undefined;
+
+            // Log warning
+            if (console._warn) console._warn("Invalid UUID provided, generating new UUID");
+            else console.warn("Invalid UUID provided, generating new UUID");
+        }
+
+        this.uuid = uuid ?? uuidV7();
+        this.trace = data?.trace ?? nanoid(5);
         this.level = data?.level ?? ELogLevel.DEBUG;
         this.message = data?.message ?? "No message provided";
         this.content = data?.content ?? undefined;
