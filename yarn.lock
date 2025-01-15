@@ -20,7 +20,6 @@ __metadata:
     eslint-plugin-react: "npm:^7.34.3"
     globals: "npm:^15.6.0"
     husky: "npm:^9.0.11"
-    jotai: "npm:^2.10.3"
     lint-staged: "npm:^15.2.7"
     nanoid: "npm:^5.0.7"
     pinst: "npm:^3.0.0"
@@ -31,6 +30,7 @@ __metadata:
     typescript-eslint: "npm:^7.13.1"
     vite: "npm:^5.3.1"
     vite-plugin-dts: "npm:^3.9.1"
+    zustand: "npm:^5.0.3"
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
@@ -2804,21 +2804,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jotai@npm:^2.10.3":
-  version: 2.10.3
-  resolution: "jotai@npm:2.10.3"
-  peerDependencies:
-    "@types/react": ">=17.0.0"
-    react: ">=17.0.0"
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    react:
-      optional: true
-  checksum: 10c0/64f6536aaa91f77dacd8d9714fb846f254bfed6e5354b3005375433d72844f3ae1d6d893ee4dd423d5bddd109d393dd338e562da914605b31190989a3d47db35
-  languageName: node
-  linkType: hard
-
 "js-tokens@npm:^3.0.0 || ^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -4694,5 +4679,26 @@ __metadata:
   bin:
     z-schema: bin/z-schema
   checksum: 10c0/e4c812cfe6468c19b2a21d07d4ff8fb70359062d33400b45f89017eaa3efe9d51e85963f2b115eaaa99a16b451782249bf9b1fa8b31d35cc473e7becb3e44264
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^5.0.3":
+  version: 5.0.3
+  resolution: "zustand@npm:5.0.3"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    immer: ">=9.0.6"
+    react: ">=18.0.0"
+    use-sync-external-store: ">=1.2.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+    use-sync-external-store:
+      optional: true
+  checksum: 10c0/dad96c6c123fda088c583d5df6692e9245cd207583078dc15f93d255a67b0f346bad4535545c98852ecde93d254812a0c799579dfde2ab595016b99fbe20e4d5
   languageName: node
   linkType: hard

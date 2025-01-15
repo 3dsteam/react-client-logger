@@ -1,28 +1,46 @@
 import { PropsWithChildren, useCallback, useEffect } from "react";
-import { useAtomValue } from "jotai/index";
 import { useLiveQuery } from "dexie-react-hooks";
-import { DB, syncConfigAtom } from "../store";
+import { useClientLoggerStore, userSyncConfigStore } from "../store";
+import { overrideConsole } from "../functions";
 
-export const ClientLoggerProvider = ({ children }: PropsWithChildren) => {
-    const ClientLoggerDB = useAtomValue(DB);
-    const SyncConfig = useAtomValue(syncConfigAtom);
+interface IClientLoggerProviderProps extends PropsWithChildren {
+    /**
+     * Override console methods
+     * ATTETION: this function can't be undone once called
+     * @default false
+     */
+    overrideConsole?: boolean;
+}
 
-    const logSaving = useLiveQuery(() => ClientLoggerDB.uploads.toArray());
+export const ClientLoggerProvider = ({ children, ...props }: IClientLoggerProviderProps) => {
+    const database = useClientLoggerStore((state) => state.database);
+    const logSaving = useLiveQuery(() => database.uploads.toArray());
+
+    // Override console
+    useEffect(() => {
+        if (props.overrideConsole) overrideConsole();
+    }, [props.overrideConsole]);
+
+    // Sync configurations
+    const endpoint = userSyncConfigStore((state) => state.endpoint);
+    const headers = userSyncConfigStore((state) => state.headers);
+    const timeout = userSyncConfigStore((state) => state.interval);
+    const chunk = userSyncConfigStore((state) => state.chunk);
 
     const sync = useCallback(async () => {
         if (!logSaving?.length) return;
         // Split logs into chunks
         const chunks = [];
-        for (let i = 0; i < logSaving.length; i += SyncConfig.chunk) {
-            chunks.push(logSaving.slice(i, i + SyncConfig.chunk));
+        for (let i = 0; i < logSaving.length; i += chunk) {
+            chunks.push(logSaving.slice(i, i + chunk));
         }
         // Sync each chunk
         for (const chunk of chunks) {
             try {
                 // Send logs to server
-                const res = await fetch(SyncConfig.endpoint, {
+                const res = await fetch(endpoint, {
                     method: "POST",
-                    headers: SyncConfig.headers,
+                    headers,
                     body: JSON.stringify(chunk),
                 });
 
@@ -32,19 +50,19 @@ export const ClientLoggerProvider = ({ children }: PropsWithChildren) => {
                 }
 
                 // Remove synced logs
-                await ClientLoggerDB.uploads.bulkDelete(chunk.map((log) => log.uuid));
+                await database.uploads.bulkDelete(chunk.map((log) => log.uuid));
             } catch (error) {
                 console._error("Log sync failed", error);
             }
         }
-    }, [SyncConfig, logSaving]);
+    }, [logSaving, database.uploads, endpoint, headers, chunk]);
 
     useEffect(() => {
         void sync();
         // Sync interval
-        const interval = setInterval(() => void sync(), SyncConfig.interval);
+        const interval = setInterval(() => void sync(), timeout);
         return () => clearInterval(interval);
-    }, [sync, SyncConfig]);
+    }, [sync, timeout]);
 
     return children;
 };
