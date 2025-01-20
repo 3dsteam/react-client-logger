@@ -1,6 +1,6 @@
 import { PropsWithChildren, useCallback, useEffect } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useClientLoggerStore, userSyncConfigStore } from "../store";
+import { useClientLoggerStore, useLogConfigStore, userSyncConfigStore } from "../store";
 import { overrideConsole } from "../functions";
 
 interface IClientLoggerProviderProps extends PropsWithChildren {
@@ -10,16 +10,31 @@ interface IClientLoggerProviderProps extends PropsWithChildren {
      * @default false
      */
     overrideConsole?: boolean;
+
+    /**
+     * Sync the ClientLogger configurations
+     */
+    syncConfigurations?: {
+        /**
+         * Sync endpoint
+         */
+        endpoint: string;
+        /**
+         * Sync headers
+         */
+        headers: Record<string, string>;
+    };
 }
 
 export const ClientLoggerProvider = ({ children, ...props }: IClientLoggerProviderProps) => {
     const database = useClientLoggerStore((state) => state.database);
     const logSaving = useLiveQuery(() => database.uploads.toArray());
 
+    const updateLogConfig = useLogConfigStore((state) => state.updateLogConfig);
+    const updateSyncConfig = userSyncConfigStore((state) => state.updateSyncConfig);
+
     // Override console
-    useEffect(() => {
-        if (props.overrideConsole) overrideConsole();
-    }, [props.overrideConsole]);
+    useEffect(() => overrideConsole(props.overrideConsole), [props.overrideConsole]);
 
     // Sync configurations
     const endpoint = userSyncConfigStore((state) => state.endpoint);
@@ -27,7 +42,35 @@ export const ClientLoggerProvider = ({ children, ...props }: IClientLoggerProvid
     const timeout = userSyncConfigStore((state) => state.interval);
     const chunk = userSyncConfigStore((state) => state.chunk);
 
-    const sync = useCallback(async () => {
+    const syncConfigurations = useCallback(async () => {
+        if (!props.syncConfigurations) return; // No configurations sync
+        // Load configurations
+        try {
+            const res = await fetch(props.syncConfigurations.endpoint, {
+                method: "GET",
+                headers: props.syncConfigurations.headers,
+            });
+            const json = await res.json();
+            // Update log configurations
+            updateLogConfig({
+                logLevel: json.data.logLevel,
+                ignoreLevels: json.data.ignoreLevels,
+                breadcrumbs: json.data.breadcrumbs,
+            });
+            // Update sync configurations
+            updateSyncConfig({
+                chunk: json.data.chunkSize,
+            });
+        } catch (error) {
+            console._error("Sync configurations failed", error);
+        }
+    }, [props.syncConfigurations]);
+
+    useEffect(() => {
+        void syncConfigurations();
+    }, [syncConfigurations]);
+
+    const syncLogs = useCallback(async () => {
         if (!logSaving?.length) return;
         // Split logs into chunks
         const chunks = [];
@@ -58,11 +101,11 @@ export const ClientLoggerProvider = ({ children, ...props }: IClientLoggerProvid
     }, [logSaving, database.uploads, endpoint, headers, chunk]);
 
     useEffect(() => {
-        void sync();
+        void syncLogs();
         // Sync interval
-        const interval = setInterval(() => void sync(), timeout);
+        const interval = setInterval(() => void syncLogs(), timeout);
         return () => clearInterval(interval);
-    }, [sync, timeout]);
+    }, [syncLogs, timeout]);
 
     return children;
 };
