@@ -1,4 +1,4 @@
-export interface ISyncerConfig {
+export interface IUploadConfig {
     /**
      * Server endpoint to sync logs
      * @default /api/logs

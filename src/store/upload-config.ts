@@ -1,13 +1,13 @@
 import { create } from "zustand";
-import { ISyncerConfig } from "../models";
+import { IUploadConfig } from "../models";
 import { persist } from "zustand/middleware";
 
 interface IActions {
-    updateSyncConfig: (config: Partial<ISyncerConfig>) => void;
+    updateUploadConfig: (config: Partial<IUploadConfig>) => void;
 }
 
-export const userSyncConfigStore = create(
-    persist<ISyncerConfig & IActions>(
+export const useUploadConfig = create(
+    persist<IUploadConfig & IActions>(
         (set) => ({
             endpoint: "/api/logs",
             headers: { "Content-Type": "application/json" },
@@ -15,8 +15,8 @@ export const userSyncConfigStore = create(
             interval: 60000,
 
             // Actions
-            updateSyncConfig: (config) => set(config),
+            updateUploadConfig: (config) => set(config),
         }),
-        { name: "client-logger-sync-config" },
+        { name: "client-logger-upload-config" },
     ),
 );
