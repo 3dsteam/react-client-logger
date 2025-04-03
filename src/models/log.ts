@@ -34,7 +34,7 @@ export enum ELogLevel {
     CRITICAL = 50,
 }
 
-export interface ILogSaving extends Omit<ILog, "trace"> {
+export interface ILogSaving extends ILog {
     /**
      * Breadcrumb trail
      * Get all logs with the same trace

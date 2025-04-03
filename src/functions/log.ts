@@ -16,6 +16,7 @@ export const log = async (args: ILogMessage) => {
         database.uploads.add(
             new LogSaving({
                 ...args,
+                trace,
                 // Add breadcrumb trail
                 breadcrumb,
             }),
@@ -26,7 +27,6 @@ export const log = async (args: ILogMessage) => {
     await database.logs.add(
         new Log({
             ...args,
-            // Add breadcrumb trail
             trace,
         }),
     );
