@@ -48,11 +48,15 @@ export const overrideConsole = (override = true) => {
     if (override) {
         // Catch uncaught errors
         window.onerror = async (message, source) => {
-            await log({ message: "Uncaught error", level: ELogLevel.ERROR, content: { message, source } });
+            await log({ message: `[Uncaught error] ${message}`, level: ELogLevel.ERROR, content: { source } });
         };
         // Catch unhandled promise rejections
         window.onunhandledrejection = async (event) => {
-            await log({ message: "Unhandled promise rejection", level: ELogLevel.ERROR, content: event.reason });
+            await log({
+                message: `[Unhandled promise rejection] ${event.reason.message}`,
+                level: ELogLevel.ERROR,
+                content: event.reason,
+            });
         };
     }
 };
