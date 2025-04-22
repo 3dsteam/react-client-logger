@@ -1,7 +1,7 @@
 {
   "name": "@3dsteam/react-client-logger",
   "description": "Saving your log on remote server",
-  "version": "3.0.0-rc.3",
+  "version": "3.0.0-rc.4",
   "workspaces": [
     "playground"
   ],
@@ -34,6 +34,7 @@
     ]
   },
   "peerDependencies": {
+    "@capacitor/core": ">=7",
     "react": ">=18",
     "react-dom": ">=18"
   },

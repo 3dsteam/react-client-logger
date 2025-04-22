@@ -9,6 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@3dsteam/react-client-logger@workspace:."
   dependencies:
+    "@capacitor/core": "npm:^7.2.0"
     "@capacitor/device": "npm:^7.0.1"
     "@eslint/compat": "npm:^1.2.5"
     "@eslint/js": "npm:^9.18.0"
@@ -264,6 +265,15 @@ __metadata:
     "@babel/helper-string-parser": "npm:^7.25.9"
     "@babel/helper-validator-identifier": "npm:^7.25.9"
   checksum: 10c0/0278053b69d7c2b8573aa36dc5242cad95f0d965e1c0ed21ccacac6330092e59ba5949753448f6d6eccf6ad59baaef270295cc05218352e060ea8c68388638c4
+  languageName: node
+  linkType: hard
+
+"@capacitor/core@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "@capacitor/core@npm:7.2.0"
+  dependencies:
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/b8fc3e20f7a35ad67baa7b82f1d01c527bf3a09a7eac7a85fab1054897c97f69a228db4a30f505acaa16148e1806408f459d15f3dbd3f409a2b9f90f1ef86fd2
   languageName: node
   linkType: hard
 
@@ -6306,6 +6316,13 @@ __metadata:
   peerDependencies:
     typescript: ">=4.8.4"
   checksum: 10c0/23fd56a958b332cac00150a652e4c84730df30571bd2faa1ba6d7b511356d1a61656621492bb6c7f15dd6e18847a1408357a0e406671d358115369a17f5bfedd
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.1.0":
+  version: 2.8.1
+  resolution: "tslib@npm:2.8.1"
+  checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
   languageName: node
   linkType: hard
 
