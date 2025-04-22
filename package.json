@@ -58,6 +58,7 @@
     "vite-plugin-dts": "^4.5.0"
   },
   "dependencies": {
+    "@capacitor/device": "^7.0.1",
     "dexie": "^4.0.10",
     "dexie-react-hooks": "^1.1.7",
     "nanoid": "^5.0.9",

@@ -9,6 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@3dsteam/react-client-logger@workspace:."
   dependencies:
+    "@capacitor/device": "npm:^7.0.1"
     "@eslint/compat": "npm:^1.2.5"
     "@eslint/js": "npm:^9.18.0"
     "@types/react": "npm:^19.1.0"
@@ -263,6 +264,15 @@ __metadata:
     "@babel/helper-string-parser": "npm:^7.25.9"
     "@babel/helper-validator-identifier": "npm:^7.25.9"
   checksum: 10c0/0278053b69d7c2b8573aa36dc5242cad95f0d965e1c0ed21ccacac6330092e59ba5949753448f6d6eccf6ad59baaef270295cc05218352e060ea8c68388638c4
+  languageName: node
+  linkType: hard
+
+"@capacitor/device@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@capacitor/device@npm:7.0.1"
+  peerDependencies:
+    "@capacitor/core": ">=7.0.0"
+  checksum: 10c0/76caa959b295ca20db5f7a7f1a9133c684ffd9ae96535f280c56b2214b5e123ab7b0b8765791599b234649934df77c7c6f8d6547bda4a4d07cce3824b02044d4
   languageName: node
   linkType: hard
 
